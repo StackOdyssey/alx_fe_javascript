@@ -47,7 +47,7 @@ const MyQoutes = [
 ]
 
 
-newQuoteBtn.addEventListener('click', () => {
+newQuoteBtn.addEventListener('click', ()=> {
     showQuotes()
 })
 
@@ -60,12 +60,12 @@ async function syncQuotes() {
 }
 
 // check if data are the same
-async function areEqual(a, b) {
+async function areEqual(a, b){
     return a.length === b.length && a.every((val, i) => val === b[i]);
 }
 
 async function sendToServer(data) {
-    if (!data) {
+    if(!data) {
         return alert('Please provide the data to send')
     }
 
@@ -144,7 +144,7 @@ function populateCategories() {
         option.textContent = c.replace(/^./, char => char.toUpperCase());
         option.value = c.toLowerCase()
         option.id = c.toLowerCase()
-
+        
         categoryFilter.appendChild(option)
     }))
 
@@ -153,15 +153,15 @@ function populateCategories() {
     //     option.textContent = c.replace(/^./, char => char.toUpperCase());
     //     option.value = c.toLowerCase()
     //     option.id = c.toLowerCase()
-
+        
     //     categoryFilter.appendChild(option)
-
+            
     // })
 
-    if (filter) {
+    if(filter) {
         categoryFilter.value = filter
     }
-
+    
 }
 
 function exportQoutes() {
@@ -194,14 +194,14 @@ function importFromJsonFile(event) {
 
     const fileReader = new FileReader();
 
-    fileReader.onload = function (event) {
+    fileReader.onload = function(event) {
         try {
             const qouteJsonString = event.target.result
             const importedQuotes = JSON.parse(event.target.result);
             const qoutes = MyQoutes
 
             qoutes.push(...importedQuotes);
-
+            
             saveQuotes()
 
             alert('Quotes imported successfully!');
@@ -216,9 +216,9 @@ function importFromJsonFile(event) {
 }
 
 async function createAddQuoteForm(text, category) {
-    if (!text || !category) return false
+    if(!text || !category) return false
 
-    MyQoutes.push({ text, category })
+    MyQoutes.push({text, category})
 
     localStorage.setItem('qoutes', JSON.stringify(MyQoutes))
     alert('Qoute added successfully.')
@@ -238,8 +238,8 @@ function addQuote() {
     createAddQuoteForm(newQuoteText + ' - Me', newQuoteCategory)
 }
 
-async function showRandomQuote() {
-
+async function showRandomQuote () {
+   
     let qoutes = await JSON.parse(localStorage.getItem('qoutes')) || []
     const data = await fetchQuotesFromServer()
     const filter = sessionStorage.getItem('category')
@@ -248,7 +248,7 @@ async function showRandomQuote() {
         qoutes = MyQoutes
     }
 
-    if (!areEqual(qoutes, data)) {
+    if(!areEqual(qoutes, data)) {
         qoutes = syncQuotes()
     }
 
@@ -257,21 +257,21 @@ async function showRandomQuote() {
     if (!filter || filter == 'all') {
         return qoutes[randIndex]
     }
-
-
+    
+    
     if (qoutes[randIndex].category.toLowerCase() !== filter.toLocaleLowerCase()) {
         return showRandomQuote()
     } else {
         return qoutes[randIndex]
     }
-
-
+    
+    
 }
 
 async function showQuotes() {
 
     quoteDisplayDiv.innerHTML = ""
-
+    
     const i = document.createElement('i')
 
     const qoute = showRandomQuote()
